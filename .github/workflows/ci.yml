@@ -1,0 +1,63 @@
+name: CI
+
+on:
+  push:
+    branches: [main, develop]
+  pull_request:
+    branches: [main, develop]
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  lint-and-build:
+    runs-on: ubuntu-latest
+
+    services:
+      postgres:
+        image: postgres:16-alpine
+        env:
+          POSTGRES_USER: academania
+          POSTGRES_PASSWORD: academania
+          POSTGRES_DB: academania_test
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+
+    env:
+      DATABASE_URL: postgresql://academania:academania@localhost:5432/academania_test?schema=public
+      JWT_ACCESS_SECRET: ci-test-access-secret-min-32-characters
+      JWT_REFRESH_SECRET: ci-test-refresh-secret-min-32-characters
+      NEXTAUTH_SECRET: ci-test-nextauth-secret-min-32-chars
+      NEXT_PUBLIC_API_URL: http://localhost:3001/api/v1
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Generate Prisma client
+        run: npm run prisma:generate -w @academania/backend
+
+      - name: Run migrations
+        run: npm run prisma:migrate:deploy -w @academania/backend
+
+      - name: Lint
+        run: npm run lint
+
+      - name: Build
+        run: npm run build
+
+      - name: Backend unit tests
+        run: npm run test -w @academania/backend -- --passWithNoTests
