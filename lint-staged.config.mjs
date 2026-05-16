@@ -14,11 +14,9 @@ export default {
     ];
   },
   'Backend/**/*.ts': (files) => {
-    const targets = rel('Backend', files)
-      .map((file) => `"Backend/${file}"`)
-      .join(' ');
+    const targets = rel('Backend', files).join(' ');
     return [
-      `node node_modules/eslint/bin/eslint.js --fix ${targets}`,
+      `npm exec -w @academania/backend -- eslint --fix ${targets}`,
       `prettier --write ${files.map((f) => `"${f}"`).join(' ')}`,
     ];
   },
