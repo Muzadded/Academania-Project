@@ -1,0 +1,44 @@
+{
+  "name": "academania",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Academic Project & Research Services Platform — monorepo",
+  "workspaces": [
+    "frontend",
+    "Backend",
+    "shared"
+  ],
+  "scripts": {
+    "dev": "concurrently -n fe,be -c blue,green \"npm run dev -w @academania/frontend\" \"npm run start:dev -w @academania/backend\"",
+    "build": "npm run build -w shared && npm run build -w @academania/backend && npm run build -w @academania/frontend",
+    "lint": "npm run lint -w @academania/frontend && npm run lint -w @academania/backend",
+    "format": "prettier --write \"**/*.{ts,tsx,js,json,md}\"",
+    "format:check": "prettier --check \"**/*.{ts,tsx,js,json,md}\"",
+    "db:migrate": "npm run prisma:migrate -w @academania/backend",
+    "db:seed": "npm run prisma:seed -w @academania/backend",
+    "db:studio": "npm run prisma:studio -w @academania/backend",
+    "prepare": "husky"
+  },
+  "devDependencies": {
+    "concurrently": "^9.1.2",
+    "husky": "^9.1.7",
+    "lint-staged": "^15.4.3",
+    "prettier": "^3.5.3"
+  },
+  "lint-staged": {
+    "frontend/**/*.{ts,tsx}": [
+      "eslint --fix",
+      "prettier --write"
+    ],
+    "backend/**/*.ts": [
+      "eslint --fix",
+      "prettier --write"
+    ],
+    "shared/**/*.ts": [
+      "prettier --write"
+    ]
+  },
+  "engines": {
+    "node": ">=20.0.0"
+  }
+}
