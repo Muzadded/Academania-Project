@@ -25,19 +25,6 @@
     "lint-staged": "^15.4.3",
     "prettier": "^3.5.3"
   },
-  "lint-staged": {
-    "frontend/**/*.{ts,tsx}": [
-      "eslint --fix",
-      "prettier --write"
-    ],
-    "backend/**/*.ts": [
-      "eslint --fix",
-      "prettier --write"
-    ],
-    "shared/**/*.ts": [
-      "prettier --write"
-    ]
-  },
   "engines": {
     "node": ">=20.0.0"
   }
