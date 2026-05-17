@@ -5,39 +5,44 @@
 
 // ─── Enums ───────────────────────────────────────────────────
 
-export enum UserRole {
-  ADMIN = 'ADMIN',
-  CLIENT = 'CLIENT',
-}
+export const UserRole = {
+  ADMIN: 'ADMIN',
+  CLIENT: 'CLIENT',
+} as const;
+export type UserRole = (typeof UserRole)[keyof typeof UserRole];
 
-export enum OrderStatus {
-  RECEIVED = 'RECEIVED',
-  IN_PROGRESS = 'IN_PROGRESS',
-  REVIEW = 'REVIEW',
-  DONE = 'DONE',
-  CANCELLED = 'CANCELLED',
-}
+export const OrderStatus = {
+  RECEIVED: 'RECEIVED',
+  IN_PROGRESS: 'IN_PROGRESS',
+  REVIEW: 'REVIEW',
+  DONE: 'DONE',
+  CANCELLED: 'CANCELLED',
+} as const;
+export type OrderStatus = (typeof OrderStatus)[keyof typeof OrderStatus];
 
-export enum PaymentStatus {
-  PENDING_REVIEW = 'PENDING_REVIEW',
-  VERIFIED = 'VERIFIED',
-  REJECTED = 'REJECTED',
-}
+export const PaymentStatus = {
+  PENDING_REVIEW: 'PENDING_REVIEW',
+  VERIFIED: 'VERIFIED',
+  REJECTED: 'REJECTED',
+} as const;
+export type PaymentStatus = (typeof PaymentStatus)[keyof typeof PaymentStatus];
 
-export enum MeetingStatus {
-  PENDING = 'PENDING',
-  CONFIRMED = 'CONFIRMED',
-  REJECTED = 'REJECTED',
-  COMPLETED = 'COMPLETED',
-}
+export const MeetingStatus = {
+  PENDING: 'PENDING',
+  CONFIRMED: 'CONFIRMED',
+  REJECTED: 'REJECTED',
+  COMPLETED: 'COMPLETED',
+} as const;
+export type MeetingStatus = (typeof MeetingStatus)[keyof typeof MeetingStatus];
 
-export enum NotificationType {
-  ORDER_STATUS = 'ORDER_STATUS',
-  PAYMENT = 'PAYMENT',
-  MESSAGE = 'MESSAGE',
-  MEETING = 'MEETING',
-  SYSTEM = 'SYSTEM',
-}
+export const NotificationType = {
+  ORDER_STATUS: 'ORDER_STATUS',
+  PAYMENT: 'PAYMENT',
+  MESSAGE: 'MESSAGE',
+  MEETING: 'MEETING',
+  SYSTEM: 'SYSTEM',
+} as const;
+export type NotificationType = (typeof NotificationType)[keyof typeof NotificationType];
 
 // ─── Auth ────────────────────────────────────────────────────
 

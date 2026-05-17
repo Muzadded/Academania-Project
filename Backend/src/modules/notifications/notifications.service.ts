@@ -40,7 +40,8 @@ export class NotificationsService {
     metadata?: Record<string, unknown>,
   ) {
     return this.prisma.notification.create({
-      data: { userId, type, title, body, metadata },
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      data: { userId, type, title, body, metadata: metadata as any },
     });
   }
 
@@ -55,7 +56,8 @@ export class NotificationsService {
   }): NotificationDto {
     return {
       id: n.id,
-      type: n.type,
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      type: n.type as any,
       title: n.title,
       body: n.body,
       metadata: (n.metadata as Record<string, unknown>) ?? null,

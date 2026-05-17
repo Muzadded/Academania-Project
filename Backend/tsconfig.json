@@ -16,8 +16,7 @@
     "forceConsistentCasingInFileNames": true,
     "noFallthroughCasesInSwitch": true,
     "paths": {
-      "@/*": ["src/*"],
-      "@academania/shared": ["../shared/types"]
+      "@/*": ["src/*"]
     }
   },
   "include": ["src/**/*"],

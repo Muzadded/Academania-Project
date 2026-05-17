@@ -40,13 +40,15 @@ export class AuthService {
     const valid = await bcrypt.compare(dto.password, user.passwordHash);
     if (!valid) throw new UnauthorizedException('Invalid credentials');
 
-    return this.issueTokens(this.toAuthUser(user));
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    return this.issueTokens(this.toAuthUser(user as any));
   }
 
   async refreshToken(refreshToken: string): Promise<AuthResponse> {
     const user = await this.prisma.user.findFirst({ where: { refreshToken } });
     if (!user) throw new UnauthorizedException('Invalid refresh token');
-    return this.issueTokens(this.toAuthUser(user));
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    return this.issueTokens(this.toAuthUser(user as any));
   }
 
   async logout(userId: string): Promise<{ message: string }> {
@@ -57,12 +59,12 @@ export class AuthService {
     return { message: 'Logged out successfully' };
   }
 
-  async forgotPassword(dto: ForgotPasswordDto): Promise<{ message: string }> {
+  async forgotPassword(_dto: ForgotPasswordDto): Promise<{ message: string }> {
     // TODO: generate token, persist, send email via mail service
     return { message: 'If the email exists, a reset link has been sent' };
   }
 
-  async resetPassword(dto: ResetPasswordDto): Promise<{ message: string }> {
+  async resetPassword(_dto: ResetPasswordDto): Promise<{ message: string }> {
     // TODO: validate reset token and update password
     return { message: 'Password updated successfully' };
   }
@@ -72,7 +74,8 @@ export class AuthService {
     const accessToken = await this.jwt.signAsync(payload);
     const refreshToken = await this.jwt.signAsync(payload, {
       secret: this.config.get<string>('JWT_REFRESH_SECRET'),
-      expiresIn: this.config.get<string>('JWT_REFRESH_EXPIRES_IN', '7d'),
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      expiresIn: this.config.get<string>('JWT_REFRESH_EXPIRES_IN', '7d') as any,
     });
 
     await this.prisma.user.update({

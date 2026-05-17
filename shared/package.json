@@ -2,8 +2,8 @@
   "name": "@academania/shared",
   "version": "0.1.0",
   "private": true,
-  "main": "./types/index.ts",
-  "types": "./types/index.ts",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
   "scripts": {
     "build": "tsc -p tsconfig.json",
     "lint": "tsc --noEmit -p tsconfig.json"

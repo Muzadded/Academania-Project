@@ -28,7 +28,7 @@ export const authOptions: NextAuthOptions = {
         if (!res.ok) return null;
 
         const json = await res.json();
-        const data = json.data as AuthResponse;
+        const data = json as AuthResponse;
 
         return {
           id: data.user.id,
