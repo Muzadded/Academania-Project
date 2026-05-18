@@ -14,30 +14,51 @@ export const authOptions: NextAuthOptions = {
         password: { label: 'Password', type: 'password' },
       },
       async authorize(credentials) {
-        if (!credentials?.email || !credentials?.password) return null;
-
-        const res = await fetch(`${API_URL}/auth/login`, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            email: credentials.email,
-            password: credentials.password,
-          }),
+        console.log('[NextAuth Debug] Authorize called with credentials:', {
+          email: credentials?.email,
+          hasPassword: !!credentials?.password,
         });
+        console.log('[NextAuth Debug] Using API_URL:', API_URL);
 
-        if (!res.ok) return null;
+        if (!credentials?.email || !credentials?.password) {
+          console.log('[NextAuth Debug] Missing email or password.');
+          return null;
+        }
 
-        const json = await res.json();
-        const data = json as AuthResponse;
+        try {
+          const res = await fetch(`${API_URL}/auth/login`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              email: credentials.email,
+              password: credentials.password,
+            }),
+          });
 
-        return {
-          id: data.user.id,
-          name: data.user.name,
-          email: data.user.email,
-          role: data.user.role,
-          accessToken: data.accessToken,
-          refreshToken: data.refreshToken,
-        };
+          console.log('[NextAuth Debug] Login API response status:', res.status, res.statusText);
+
+          if (!res.ok) {
+            const errText = await res.text();
+            console.log('[NextAuth Debug] Login API failed. Response:', errText);
+            return null;
+          }
+
+          const json = await res.json();
+          console.log('[NextAuth Debug] Login API succeeded. Body:', JSON.stringify(json));
+          const data = json as AuthResponse;
+
+          return {
+            id: data.user.id,
+            name: data.user.name,
+            email: data.user.email,
+            role: data.user.role,
+            accessToken: data.accessToken,
+            refreshToken: data.refreshToken,
+          };
+        } catch (error) {
+          console.error('[NextAuth Debug] Fetch error caught:', error);
+          return null;
+        }
       },
     }),
     GoogleProvider({
