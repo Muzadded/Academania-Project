@@ -11,6 +11,7 @@ const clientLinks = [
   { href: '/dashboard/orders', label: 'Orders' },
   { href: '/dashboard?tab=payments', label: 'Payments' },
   { href: '/dashboard?tab=chat', label: 'Chat' },
+  { href: '/dashboard/settings', label: 'Settings' },
 ];
 
 const adminLinks = [
@@ -18,6 +19,7 @@ const adminLinks = [
   { href: '/admin/orders', label: 'Orders' },
   { href: '/admin/clients', label: 'Clients' },
   { href: '/admin?tab=meetings', label: 'Meetings' },
+  { href: '/admin/settings', label: 'Settings' },
 ];
 
 interface DashboardSidebarProps {
