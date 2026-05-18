@@ -67,8 +67,8 @@ export default function LoginPage() {
   return (
     <div className="flex flex-col space-y-6">
       <div className="flex flex-col space-y-2 text-center">
-        <h1 className="text-2xl font-bold tracking-tight text-white">Welcome back</h1>
-        <p className="text-sm text-slate-400">Enter your email to sign in to your account</p>
+        <h1 className="text-2xl font-bold tracking-tight text-foreground">Welcome back</h1>
+        <p className="text-sm text-muted-foreground">Enter your email to sign in to your account</p>
       </div>
 
       {error && (
@@ -82,11 +82,11 @@ export default function LoginPage() {
             name="email"
             render={({ field }) => (
               <FormItem>
-                <FormLabel className="text-slate-300">Email</FormLabel>
+                <FormLabel>Email</FormLabel>
                 <FormControl>
                   <Input
                     placeholder="name@example.com"
-                    className="bg-white/10 border-white/20 text-white placeholder:text-slate-500"
+                    className="bg-background/50 backdrop-blur-sm"
                     {...field}
                   />
                 </FormControl>
@@ -100,7 +100,7 @@ export default function LoginPage() {
             render={({ field }) => (
               <FormItem>
                 <div className="flex items-center justify-between">
-                  <FormLabel className="text-slate-300">Password</FormLabel>
+                  <FormLabel>Password</FormLabel>
                   <Link
                     href="/forgot-password"
                     className="text-sm font-medium text-primary hover:text-primary/80 transition-colors"
@@ -112,7 +112,7 @@ export default function LoginPage() {
                   <Input
                     type="password"
                     placeholder="••••••••"
-                    className="bg-white/10 border-white/20 text-white placeholder:text-slate-500"
+                    className="bg-background/50 backdrop-blur-sm"
                     {...field}
                   />
                 </FormControl>
@@ -131,7 +131,7 @@ export default function LoginPage() {
         </form>
       </Form>
 
-      <div className="text-center text-sm text-slate-400">
+      <div className="text-center text-sm text-muted-foreground">
         Don&apos;t have an account?{' '}
         <Link
           href="/register"

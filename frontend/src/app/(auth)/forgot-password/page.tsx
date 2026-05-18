@@ -64,8 +64,8 @@ export default function ForgotPasswordPage() {
   if (status === 'success') {
     return (
       <div className="flex flex-col space-y-6 text-center">
-        <h1 className="text-2xl font-bold tracking-tight text-white">Check your email</h1>
-        <p className="text-sm text-slate-400">
+        <h1 className="text-2xl font-bold tracking-tight text-foreground">Check your email</h1>
+        <p className="text-sm text-muted-foreground">
           We have sent a password reset link to your email address. Please check your inbox and spam
           folder.
         </p>
@@ -79,8 +79,8 @@ export default function ForgotPasswordPage() {
   return (
     <div className="flex flex-col space-y-6">
       <div className="flex flex-col space-y-2 text-center">
-        <h1 className="text-2xl font-bold tracking-tight text-white">Forgot Password</h1>
-        <p className="text-sm text-slate-400">
+        <h1 className="text-2xl font-bold tracking-tight text-foreground">Forgot Password</h1>
+        <p className="text-sm text-muted-foreground">
           Enter your email address and we will send you a reset link.
         </p>
       </div>
@@ -98,11 +98,11 @@ export default function ForgotPasswordPage() {
             name="email"
             render={({ field }) => (
               <FormItem>
-                <FormLabel className="text-slate-300">Email</FormLabel>
+                <FormLabel>Email</FormLabel>
                 <FormControl>
                   <Input
                     placeholder="name@example.com"
-                    className="bg-white/10 border-white/20 text-white placeholder:text-slate-500"
+                    className="bg-background/50 backdrop-blur-sm"
                     {...field}
                   />
                 </FormControl>
@@ -121,7 +121,7 @@ export default function ForgotPasswordPage() {
         </form>
       </Form>
 
-      <div className="text-center text-sm text-slate-400">
+      <div className="text-center text-sm text-muted-foreground">
         Remember your password?{' '}
         <Link
           href="/login"

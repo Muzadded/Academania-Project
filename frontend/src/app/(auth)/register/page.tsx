@@ -95,8 +95,10 @@ export default function RegisterPage() {
   return (
     <div className="flex flex-col space-y-6">
       <div className="flex flex-col space-y-2 text-center">
-        <h1 className="text-2xl font-bold tracking-tight text-white">Create an account</h1>
-        <p className="text-sm text-slate-400">Enter your details below to create your account</p>
+        <h1 className="text-2xl font-bold tracking-tight text-foreground">Create an account</h1>
+        <p className="text-sm text-muted-foreground">
+          Enter your details below to create your account
+        </p>
       </div>
 
       {error && (
@@ -110,11 +112,11 @@ export default function RegisterPage() {
             name="name"
             render={({ field }) => (
               <FormItem>
-                <FormLabel className="text-slate-300">Full Name</FormLabel>
+                <FormLabel>Full Name</FormLabel>
                 <FormControl>
                   <Input
                     placeholder="John Doe"
-                    className="bg-white/10 border-white/20 text-white placeholder:text-slate-500"
+                    className="bg-background/50 backdrop-blur-sm"
                     {...field}
                   />
                 </FormControl>
@@ -127,11 +129,11 @@ export default function RegisterPage() {
             name="email"
             render={({ field }) => (
               <FormItem>
-                <FormLabel className="text-slate-300">Email</FormLabel>
+                <FormLabel>Email</FormLabel>
                 <FormControl>
                   <Input
                     placeholder="name@example.com"
-                    className="bg-white/10 border-white/20 text-white placeholder:text-slate-500"
+                    className="bg-background/50 backdrop-blur-sm"
                     {...field}
                   />
                 </FormControl>
@@ -144,12 +146,12 @@ export default function RegisterPage() {
             name="password"
             render={({ field }) => (
               <FormItem>
-                <FormLabel className="text-slate-300">Password</FormLabel>
+                <FormLabel>Password</FormLabel>
                 <FormControl>
                   <Input
                     type="password"
                     placeholder="••••••••"
-                    className="bg-white/10 border-white/20 text-white placeholder:text-slate-500"
+                    className="bg-background/50 backdrop-blur-sm"
                     {...field}
                   />
                 </FormControl>
@@ -162,12 +164,12 @@ export default function RegisterPage() {
             name="confirmPassword"
             render={({ field }) => (
               <FormItem>
-                <FormLabel className="text-slate-300">Confirm Password</FormLabel>
+                <FormLabel>Confirm Password</FormLabel>
                 <FormControl>
                   <Input
                     type="password"
                     placeholder="••••••••"
-                    className="bg-white/10 border-white/20 text-white placeholder:text-slate-500"
+                    className="bg-background/50 backdrop-blur-sm"
                     {...field}
                   />
                 </FormControl>
@@ -186,7 +188,7 @@ export default function RegisterPage() {
         </form>
       </Form>
 
-      <div className="text-center text-sm text-slate-400">
+      <div className="text-center text-sm text-muted-foreground">
         Already have an account?{' '}
         <Link
           href="/login"

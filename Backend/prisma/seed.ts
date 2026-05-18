@@ -49,11 +49,11 @@ const services = [
 ];
 
 async function main() {
-  const adminPassword = await bcrypt.hash('Admin@12345', 12);
+  const adminPassword = await bcrypt.hash('Admin@12345', 10);
 
   await prisma.user.upsert({
     where: { email: 'admin@academania.com' },
-    update: {},
+    update: { passwordHash: adminPassword },
     create: {
       name: 'Admin User',
       email: 'admin@academania.com',

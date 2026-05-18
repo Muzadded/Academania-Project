@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, Suspense } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import Link from 'next/link';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -31,7 +31,7 @@ const resetPasswordSchema = z
 
 type ResetPasswordFormValues = z.infer<typeof resetPasswordSchema>;
 
-export default function ResetPasswordPage() {
+function ResetPasswordForm() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const token = searchParams.get('token');
@@ -84,10 +84,10 @@ export default function ResetPasswordPage() {
   if (status === 'success') {
     return (
       <div className="flex flex-col space-y-6 text-center">
-        <h1 className="text-2xl font-bold tracking-tight text-white">
+        <h1 className="text-2xl font-bold tracking-tight text-foreground">
           Password Reset Successfully
         </h1>
-        <p className="text-sm text-slate-400">
+        <p className="text-sm text-muted-foreground">
           Your password has been successfully updated. You can now use your new password to log in.
         </p>
         <Button onClick={() => router.push('/login')} className="mt-4 bg-primary text-white">
@@ -100,8 +100,8 @@ export default function ResetPasswordPage() {
   return (
     <div className="flex flex-col space-y-6">
       <div className="flex flex-col space-y-2 text-center">
-        <h1 className="text-2xl font-bold tracking-tight text-white">Reset Password</h1>
-        <p className="text-sm text-slate-400">Enter your new password below.</p>
+        <h1 className="text-2xl font-bold tracking-tight text-foreground">Reset Password</h1>
+        <p className="text-sm text-muted-foreground">Enter your new password below.</p>
       </div>
 
       {!token && (
@@ -123,12 +123,12 @@ export default function ResetPasswordPage() {
             name="password"
             render={({ field }) => (
               <FormItem>
-                <FormLabel className="text-slate-300">New Password</FormLabel>
+                <FormLabel>New Password</FormLabel>
                 <FormControl>
                   <Input
                     type="password"
                     placeholder="••••••••"
-                    className="bg-white/10 border-white/20 text-white placeholder:text-slate-500"
+                    className="bg-background/50 backdrop-blur-sm"
                     {...field}
                   />
                 </FormControl>
@@ -141,12 +141,12 @@ export default function ResetPasswordPage() {
             name="confirmPassword"
             render={({ field }) => (
               <FormItem>
-                <FormLabel className="text-slate-300">Confirm New Password</FormLabel>
+                <FormLabel>Confirm New Password</FormLabel>
                 <FormControl>
                   <Input
                     type="password"
                     placeholder="••••••••"
-                    className="bg-white/10 border-white/20 text-white placeholder:text-slate-500"
+                    className="bg-background/50 backdrop-blur-sm"
                     {...field}
                   />
                 </FormControl>
@@ -165,5 +165,19 @@ export default function ResetPasswordPage() {
         </form>
       </Form>
     </div>
+  );
+}
+
+export default function ResetPasswordPage() {
+  return (
+    <Suspense
+      fallback={
+        <div className="flex items-center justify-center p-8">
+          <Loader2 className="h-8 w-8 animate-spin text-primary" />
+        </div>
+      }
+    >
+      <ResetPasswordForm />
+    </Suspense>
   );
 }
