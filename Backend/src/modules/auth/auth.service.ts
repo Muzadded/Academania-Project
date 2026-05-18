@@ -9,6 +9,7 @@ import { ConfigService } from '@nestjs/config';
 import { JwtService } from '@nestjs/jwt';
 import * as bcrypt from 'bcrypt';
 import * as crypto from 'crypto';
+import * as nodemailer from 'nodemailer';
 import { AuthResponse, AuthUser } from '@academania/shared';
 import { PrismaService } from '@/prisma/prisma.service';
 import { UsersService } from '../users/users.service';
@@ -90,10 +91,58 @@ export class AuthService {
       },
     });
 
-    console.log('\n==================================================');
-    console.log(`PASSWORD RESET REQUEST FOR: ${dto.email}`);
-    console.log(`RESET URL: http://localhost:3000/reset-password?token=${token}`);
-    console.log('==================================================\n');
+    const transporter = nodemailer.createTransport({
+      host: this.config.get<string>('SMTP_HOST', 'smtp.gmail.com'),
+      port: Number(this.config.get<number>('SMTP_PORT', 465)),
+      secure: Number(this.config.get<number>('SMTP_PORT', 465)) === 465,
+      auth: {
+        user: this.config.get<string>('SMTP_USER', 'jaforsadakdiu4159@gmail.com'),
+        pass: this.config.get<string>('SMTP_PASS', 'fxzdaftokguwtjxt'),
+      },
+    });
+
+    const resetLink = `http://localhost:3000/reset-password?token=${token}`;
+
+    const mailOptions = {
+      from: this.config.get<string>('EMAIL_FROM', 'jaforsadakdiu4159@gmail.com'),
+      to: dto.email,
+      subject: 'Password Reset Request — Academania',
+      html: `
+        <div style="font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; max-width: 600px; margin: 0 auto; padding: 32px 24px; border: 1px solid #e2e8f0; border-radius: 16px; background-color: #ffffff; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);">
+          <div style="text-align: center; margin-bottom: 32px;">
+            <h1 style="color: #0f172a; margin: 0; font-size: 24px; font-weight: 700; letter-spacing: -0.025em;">Academania</h1>
+            <p style="color: #64748b; margin: 4px 0 0 0; font-size: 14px;">Your Academic Research Companion</p>
+          </div>
+          
+          <div style="margin-bottom: 24px;">
+            <p style="font-size: 16px; color: #334155; line-height: 1.6; margin: 0 0 16px 0;">Hello,</p>
+            <p style="font-size: 16px; color: #334155; line-height: 1.6; margin: 0 0 24px 0;">We received a request to reset your Academania account password. Click the secure link below to update your password. This reset link is valid for <strong>1 hour</strong>.</p>
+          </div>
+
+          <div style="text-align: center; margin: 32px 0;">
+            <a href="${resetLink}" style="background-color: #2563eb; color: #ffffff; padding: 14px 28px; border-radius: 8px; font-size: 15px; font-weight: 600; text-decoration: none; display: inline-block; box-shadow: 0 4px 6px -1px rgba(37, 99, 235, 0.2);">Reset My Password</a>
+          </div>
+
+          <div style="margin-top: 32px; padding-top: 24px; border-top: 1px solid #e2e8f0;">
+            <p style="font-size: 14px; color: #64748b; line-height: 1.6; margin: 0 0 8px 0;">If you did not request a password reset, you can safely ignore this email; your password will remain unchanged.</p>
+            <p style="font-size: 13px; color: #94a3b8; line-height: 1.6; margin: 0;">If the button above does not work, copy and paste this URL into your browser:</p>
+            <p style="font-size: 13px; color: #2563eb; word-break: break-all; margin: 8px 0 0 0;"><a href="${resetLink}" style="color: #2563eb; text-decoration: underline;">${resetLink}</a></p>
+          </div>
+
+          <div style="text-align: center; margin-top: 40px; font-size: 12px; color: #94a3b8;">
+            <p style="margin: 0 0 4px 0;">© ${new Date().getFullYear()} Academania. All rights reserved.</p>
+            <p style="margin: 0;">This is an automated system notification.</p>
+          </div>
+        </div>
+      `,
+    };
+
+    try {
+      await transporter.sendMail(mailOptions);
+      console.log(`[SMTP] Success: Password reset email sent to ${dto.email}`);
+    } catch (mailError) {
+      console.error('[SMTP] Error: Failed to send password reset email:', mailError);
+    }
 
     return {
       message: 'If the email exists, a reset link has been sent',
