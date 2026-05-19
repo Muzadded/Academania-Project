@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import { ArrowLeft } from 'lucide-react';
 import { siteConfig } from '@/config/site';
 
 export default function AuthLayout({ children }: { children: React.ReactNode }) {
@@ -8,10 +9,21 @@ export default function AuthLayout({ children }: { children: React.ReactNode }) 
       <div className="absolute top-[-10%] left-[-10%] h-[500px] w-[500px] rounded-full bg-primary/10 blur-[120px] animate-pulse pointer-events-none" />
       <div className="absolute bottom-[-10%] right-[-10%] h-[600px] w-[600px] rounded-full bg-primary/10 blur-[150px] animate-pulse pointer-events-none delay-1000" />
 
+      {/* Back to Home Link */}
+      <div className="absolute left-4 top-4 z-20 md:left-8 md:top-8">
+        <Link
+          href="/"
+          className="inline-flex items-center gap-2 text-sm font-medium text-muted-foreground hover:text-foreground transition-colors bg-background/50 hover:bg-background/85 backdrop-blur-md px-4 py-2 rounded-lg border border-border shadow-sm"
+        >
+          <ArrowLeft className="h-4 w-4" />
+          <span>Back to website</span>
+        </Link>
+      </div>
+
       <div className="z-10 w-full max-w-md flex flex-col items-center animate-in fade-in zoom-in duration-500">
         <Link
           href="/"
-          className="mb-8 text-4xl font-extrabold tracking-tight text-foreground drop-shadow-sm"
+          className="mb-8 text-4xl font-extrabold tracking-tight text-foreground hover:text-primary transition-colors drop-shadow-sm"
         >
           {siteConfig.name}
         </Link>
