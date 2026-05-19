@@ -3,35 +3,36 @@ import { ConfigService } from '@nestjs/config';
 import { PassportStrategy } from '@nestjs/passport';
 import { ExtractJwt, Strategy } from 'passport-jwt';
 import { AuthUser } from '@academania/shared';
-import { UsersService } from '../../users/users.service';
 
 interface JwtPayload {
   sub: string;
   email: string;
   role: AuthUser['role'];
+  name: string;
 }
 
 @Injectable()
 export class JwtStrategy extends PassportStrategy(Strategy) {
-  constructor(
-    config: ConfigService,
-    private readonly usersService: UsersService,
-  ) {
+  constructor(config: ConfigService) {
+    const secret = config.get<string>('JWT_ACCESS_SECRET');
+    if (!secret) {
+      throw new Error('JWT_ACCESS_SECRET is not defined in environment variables');
+    }
+
     super({
       jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
       ignoreExpiration: false,
-      secretOrKey: config.get<string>('JWT_ACCESS_SECRET') || 'secret',
+      secretOrKey: secret,
     });
   }
 
   async validate(payload: JwtPayload): Promise<AuthUser> {
-    const user = await this.usersService.findById(payload.sub);
-    if (!user) throw new UnauthorizedException();
+    // Return payload directly without DB lookup for stateless, fast authentication
     return {
-      id: user.id,
-      name: user.name,
-      email: user.email,
-      role: user.role,
+      id: payload.sub,
+      name: payload.name,
+      email: payload.email,
+      role: payload.role,
     };
   }
 }
