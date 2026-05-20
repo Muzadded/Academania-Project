@@ -141,9 +141,6 @@ export function DashboardChat() {
           <p className="text-muted-foreground mt-2 max-w-sm">
             You must place an order before starting a chat with an academic consultant.
           </p>
-          <Button asChild className="mt-6">
-            <a href="/order">Submit Your First Project</a>
-          </Button>
         </CardContent>
       </Card>
     );

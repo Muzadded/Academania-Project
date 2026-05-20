@@ -206,9 +206,6 @@ export function DashboardPayments() {
           <p className="text-muted-foreground mt-2 max-w-sm">
             Before uploading payment screenshots, you need to submit a project order.
           </p>
-          <Button asChild className="mt-6">
-            <a href="/order">Submit Your First Project</a>
-          </Button>
         </CardContent>
       </Card>
     );

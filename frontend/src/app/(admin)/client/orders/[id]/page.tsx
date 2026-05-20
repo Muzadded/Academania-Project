@@ -1,8 +1,8 @@
-interface AdminOrderDetailPageProps {
+interface ClientOrderDetailPageProps {
   params: { id: string };
 }
 
-export default function AdminOrderDetailPage({ params }: AdminOrderDetailPageProps) {
+export default function ClientOrderDetailPage({ params }: ClientOrderDetailPageProps) {
   return (
     <div>
       <h1 className="text-2xl font-bold">Manage Order {params.id}</h1>

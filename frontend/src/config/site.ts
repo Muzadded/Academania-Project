@@ -8,6 +8,6 @@ export const siteConfig = {
     order: '/order',
     login: '/login',
     dashboard: '/dashboard',
-    admin: '/admin',
+    client: '/client',
   },
 } as const;

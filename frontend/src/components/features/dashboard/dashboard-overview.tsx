@@ -3,16 +3,7 @@
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { useSession } from 'next-auth/react';
-import {
-  FileText,
-  Clock,
-  CheckCircle2,
-  AlertCircle,
-  Plus,
-  Calendar,
-  ArrowRight,
-  Loader2,
-} from 'lucide-react';
+import { FileText, Clock, CheckCircle2, AlertCircle, ArrowRight, Loader2 } from 'lucide-react';
 import { OrderSummaryDto } from '@academania/shared';
 import { apiClient } from '@/lib/api-client';
 import { Button } from '@/components/ui/button';
@@ -124,24 +115,6 @@ export function DashboardOverview() {
             Track your thesis, dissertation, and course assignments in real-time, communicate
             directly with your dedicated expert, and view downloadable deliverables.
           </p>
-          <div className="mt-6 flex flex-wrap gap-4">
-            <Button asChild variant="secondary" className="bg-white text-primary hover:bg-white/95">
-              <Link href="/order" className="flex items-center gap-2">
-                <Plus className="h-4 w-4" />
-                Submit New Project
-              </Link>
-            </Button>
-            <Button
-              asChild
-              variant="outline"
-              className="border-white/30 text-white hover:bg-white/10"
-            >
-              <Link href="/book-meeting" className="flex items-center gap-2">
-                <Calendar className="h-4 w-4" />
-                Book Consultation
-              </Link>
-            </Button>
-          </div>
         </div>
       </div>
 
@@ -213,16 +186,10 @@ export function DashboardOverview() {
           {recentOrders.length === 0 ? (
             <div className="flex flex-col items-center justify-center py-12 text-center text-muted-foreground">
               <FileText className="h-12 w-12 text-muted/60 mb-4" />
-              <p className="font-medium text-base">No projects submitted yet</p>
-              <p className="text-sm mt-1 mb-4">
-                Submit a project description to get started with Academania.
+              <p className="font-medium text-base">No projects yet</p>
+              <p className="text-sm mt-1">
+                Your submitted academic projects will appear here once they are received.
               </p>
-              <Button asChild size="sm">
-                <Link href="/order" className="flex items-center gap-2">
-                  <Plus className="h-4 w-4" />
-                  Submit Your Project
-                </Link>
-              </Button>
             </div>
           ) : (
             <div className="overflow-x-auto">

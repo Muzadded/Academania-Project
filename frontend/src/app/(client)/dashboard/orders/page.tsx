@@ -3,7 +3,7 @@
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { useSession } from 'next-auth/react';
-import { FileText, Loader2, AlertCircle, Plus, Search, ChevronRight } from 'lucide-react';
+import { FileText, Loader2, AlertCircle, Search, ChevronRight } from 'lucide-react';
 import { OrderSummaryDto } from '@academania/shared';
 import { apiClient } from '@/lib/api-client';
 import { Button } from '@/components/ui/button';
@@ -130,12 +130,6 @@ export default function OrdersPage() {
             Manage and track all your submitted academic orders.
           </p>
         </div>
-        <Button asChild>
-          <Link href="/order" className="flex items-center gap-2">
-            <Plus className="h-4 w-4" />
-            Submit New Project
-          </Link>
-        </Button>
       </div>
 
       <Card>
@@ -184,12 +178,9 @@ export default function OrdersPage() {
                   : 'Try modifying your search query or status filter.'}
               </p>
               {orders.length === 0 && (
-                <Button asChild size="sm" className="mt-4">
-                  <Link href="/order" className="flex items-center gap-2">
-                    <Plus className="h-4 w-4" />
-                    Submit New Project
-                  </Link>
-                </Button>
+                <div className="mt-4 text-sm text-muted-foreground">
+                  Projects created via the main website will appear here.
+                </div>
               )}
             </div>
           ) : (
