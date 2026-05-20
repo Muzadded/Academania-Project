@@ -45,7 +45,7 @@ export const authOptions: NextAuthOptions = {
 
           const json = await res.json();
           console.log('[NextAuth Debug] Login API succeeded. Body:', JSON.stringify(json));
-          const data = json as AuthResponse;
+          const data = (json.data || json) as AuthResponse;
 
           return {
             id: data.user.id,
