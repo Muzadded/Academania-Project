@@ -6,7 +6,8 @@ export default function ClientDashboardLayout({ children }: { children: React.Re
     <div className="flex min-h-screen">
       <DashboardSidebar variant="client" />
       <div className="flex flex-1 flex-col">
-        <header className="flex h-14 items-center justify-end border-b px-6">
+        <header className="flex h-14 items-center justify-between border-b px-6">
+          <span className="text-sm font-medium text-muted-foreground">Client Portal</span>
           <NotificationBell />
         </header>
         <div className="flex-1 p-6">{children}</div>
