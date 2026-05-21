@@ -82,6 +82,8 @@ export class MeetingsService {
     confirmedAt: Date | null;
     meetingLink: string | null;
     notes: string | null;
+    clientName: string;
+    clientEmail: string;
   }): MeetingDto {
     return {
       id: m.id,
@@ -92,6 +94,8 @@ export class MeetingsService {
       confirmedAt: m.confirmedAt?.toISOString() ?? null,
       meetingLink: m.meetingLink,
       notes: m.notes,
+      clientName: m.clientName,
+      clientEmail: m.clientEmail,
     };
   }
 }

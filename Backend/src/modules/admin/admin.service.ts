@@ -5,6 +5,7 @@ import {
   AdminAnalyticsDto,
   AdminClientDto,
   OrderStatus as SharedOrderStatus,
+  UserRole as SharedUserRole,
 } from '@academania/shared';
 import { PrismaService } from '@/prisma/prisma.service';
 import { StorageService } from '../storage/storage.service';
@@ -58,15 +59,16 @@ export class AdminService {
 
   async getClients(): Promise<AdminClientDto[]> {
     const clients = await this.prisma.user.findMany({
-      where: { role: UserRole.CLIENT },
       include: {
         orders: { select: { id: true, status: true } },
       },
+      orderBy: { createdAt: 'desc' },
     });
     return clients.map((c) => ({
       id: c.id,
       name: c.name,
       email: c.email,
+      role: c.role as unknown as SharedUserRole,
       orderCount: c.orders.length,
       activeOrders: c.orders.filter((o) => o.status !== OrderStatus.DONE).length,
     }));
@@ -75,16 +77,18 @@ export class AdminService {
   async createClient(dto: CreateClientDto) {
     const password = dto.password ?? `Temp@${Date.now().toString(36)}`;
     const passwordHash = await bcrypt.hash(password, 12);
+    const role = dto.role ?? UserRole.CLIENT;
     const user = await this.prisma.user.create({
       data: {
         name: dto.name,
         email: dto.email,
         passwordHash,
-        role: UserRole.CLIENT,
+        role,
       },
     });
     // TODO: email credentials to client
-    return { id: user.id, email: user.email, message: 'Client account created' };
+    const label = role === UserRole.ADMIN ? 'Admin account created' : 'Client account created';
+    return { id: user.id, email: user.email, message: label };
   }
 
   async getAnalytics(): Promise<AdminAnalyticsDto> {

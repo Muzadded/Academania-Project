@@ -1,4 +1,4 @@
-import { Type } from 'class-transformer';
+import { plainToInstance, Transform, Type } from 'class-transformer';
 import {
   IsArray,
   IsDateString,
@@ -43,6 +43,23 @@ export class CreateOrderDto {
   @IsString()
   description!: string;
 
+  // multipart/form-data sends this as a JSON string; @Transform parses it and
+  // uses plainToInstance so class-validator's whitelist sees MeetingSlotDto
+  // instances (not plain objects), which would otherwise flag every property.
+  @Transform(({ value }) => {
+    let arr = value;
+    if (typeof value === 'string') {
+      try {
+        arr = JSON.parse(value);
+      } catch {
+        return value;
+      }
+    }
+    if (Array.isArray(arr)) {
+      return plainToInstance(MeetingSlotDto, arr);
+    }
+    return arr;
+  })
   @IsArray()
   @ValidateNested({ each: true })
   @Type(() => MeetingSlotDto)
