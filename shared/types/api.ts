@@ -116,6 +116,7 @@ export interface MeetingSlotPreference {
 export interface CreateOrderDto {
   serviceId: string;
   clientName: string;
+  clientEmail?: string;
   university: string;
   budget: number;
   deadline: string;
@@ -157,6 +158,31 @@ export interface OrderDetailDto extends OrderSummaryDto {
   assignedTo: string | null;
 }
 
+export interface AdminOrderService {
+  id: string;
+  title: string;
+}
+
+export interface AdminOrderClient {
+  id: string;
+  name: string;
+  email: string;
+}
+
+export interface AdminOrderSummaryDto {
+  id: string;
+  referenceNumber: string;
+  status: OrderStatus;
+  deadline: string;
+  createdAt: string;
+  clientName: string;
+  university: string;
+  budget: number;
+  assigneeId: string | null;
+  service: AdminOrderService;
+  client: AdminOrderClient | null;
+}
+
 export interface RevisionRequestDto {
   note: string;
 }
@@ -185,6 +211,8 @@ export interface MeetingDto {
   confirmedAt: string | null;
   meetingLink: string | null;
   notes: string | null;
+  clientName: string;
+  clientEmail: string;
 }
 
 export interface ConfirmMeetingDto {
@@ -255,6 +283,7 @@ export interface AdminClientDto {
   id: string;
   name: string;
   email: string;
+  role: UserRole;
   orderCount: number;
   activeOrders: number;
 }
@@ -263,6 +292,7 @@ export interface CreateClientDto {
   name: string;
   email: string;
   password?: string;
+  role?: UserRole;
 }
 
 export interface AdminAnalyticsDto {

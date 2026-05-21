@@ -14,7 +14,7 @@
     "prisma:generate": "prisma generate",
     "prisma:migrate": "prisma migrate dev",
     "prisma:migrate:deploy": "prisma migrate deploy",
-    "prisma:seed": "ts-node --compiler-options {\"module\":\"CommonJS\"} prisma/seed.ts",
+    "prisma:seed": "ts-node --project tsconfig.seed.json prisma/seed.ts",
     "prisma:studio": "prisma studio"
   },
   "dependencies": {
@@ -29,6 +29,7 @@
     "@nestjs/schedule": "^5.0.1",
     "@nestjs/throttler": "^6.4.0",
     "@nestjs/websockets": "^11.0.12",
+    "@prisma/adapter-pg": "^7.8.0",
     "@prisma/client": "^6.6.0",
     "bcrypt": "^5.1.1",
     "class-transformer": "^0.5.1",
@@ -37,6 +38,7 @@
     "passport": "^0.7.0",
     "passport-google-oauth20": "^2.0.0",
     "passport-jwt": "^4.0.1",
+    "pg": "^8.21.0",
     "reflect-metadata": "^0.2.2",
     "rxjs": "^7.8.2",
     "socket.io": "^4.8.1"
@@ -54,6 +56,7 @@
     "@types/nodemailer": "^8.0.0",
     "@types/passport-google-oauth20": "^2.0.16",
     "@types/passport-jwt": "^4.0.1",
+    "@types/pg": "^8.20.0",
     "@typescript-eslint/eslint-plugin": "^8.29.1",
     "@typescript-eslint/parser": "^8.29.1",
     "eslint": "^9.24.0",

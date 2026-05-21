@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { signIn } from 'next-auth/react';
+import { getSession, signIn } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -54,7 +54,9 @@ export default function LoginPage() {
       if (response?.error) {
         setError('Invalid email or password.');
       } else {
-        router.push('/dashboard');
+        const session = await getSession();
+        const destination = session?.user?.role === 'ADMIN' ? '/client' : '/dashboard';
+        router.push(destination);
         router.refresh();
       }
     } catch (err) {
